@@ -34,6 +34,7 @@ rule "Primer intento"
 end
 
 rule "Turno de humano, la maquina tiene intentos disponibles"
+	salience 5
 	when
 		t: Turno(turno == TipoTurno.HUMANO)
 		contador : ContadorIntentos($i: intentos, $id: intentosDisponibles)
@@ -58,21 +59,19 @@ rule "Turno de humano, la maquina tiene intentos disponibles"
 		else{
 			// analizar feedback
 			scanner.nextLine();
-			System.out.print("Picas o fijas?: ");
-			String feedbackU = new String(scanner.nextLine());
-			if(feedbackU != null && feedbackU != "" && 
-				(feedbackU.equalsIgnoreCase("picas") || 
-					feedbackU.equalsIgnoreCase("fijas")) ) {
-				TipoFeedback tipo = TipoFeedback.valueOf(feedbackU.toUpperCase());
-				modify(feedback){setAciertos(aciertosF)}
-				modify(feedback){setTipoFeedback(tipo)};
-				modify(t){setTurno (TipoTurno.MAQUINA)};
-			}
-			else{
-				// pedir feedback otra vez
-				System.out.println("El feedback no es valido");
-				update(t);
-			}
+			System.out.print("Cuantas son Picas?:");
+			int feedbackU_picas = new Integer(scanner.nextInt()).intValue();
+			
+			System.out.print("Cuantas son fijas?:");
+			int feedbackU_fijas = new Integer(scanner.nextInt()).intValue();
+			
+			//if(feedbackU_picas != null && feedbackU_fijas != null && feedbackU_fijas !=0 &&
+			//		 feedbackU_picas !=0 ) {
+			//	TipoFeedback tipo = TipoFeedback.valueOf(feedbackU_fijas);
+			//	modify(feedback){setAciertos(aciertosF)}
+			//	modify(feedback){setTipoFeedback(tipo)};
+			//	modify(t){setTurno (TipoTurno.MAQUINA)};
+			//}
 		}
 end		
 rule "Analizar si fueron todas fijas"
